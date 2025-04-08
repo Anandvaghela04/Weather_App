@@ -2,7 +2,14 @@ require('dotenv').config();
 const http = require("http");
 const fs = require("fs");
 var requests = require("requests");
+const express = require('express');
+const app = express();
 
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 const homeFile = fs.readFileSync("home.html", "utf-8");
 
 const replaceVal = (tempVal, orgVal) => {
