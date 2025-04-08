@@ -1,17 +1,15 @@
 require('dotenv').config();
-const http = require("http");
 const fs = require("fs");
-var requests = require("requests");
-const express = require('express');
-const app = express();
+const express = require("express");
+const requests = require("requests");
 
+const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Load HTML file
 const homeFile = fs.readFileSync("home.html", "utf-8");
 
+// Replace placeholders with weather data
 const replaceVal = (tempVal, orgVal) => {
   let temperature = tempVal.replace("{%tempval%}", orgVal.main.temp);
   temperature = temperature.replace("{%tempmin%}", orgVal.main.temp_min);
@@ -22,38 +20,35 @@ const replaceVal = (tempVal, orgVal) => {
   return temperature;
 };
 
-const server = http.createServer((req, res) => {
-  if (req.url == "/") {
-    requests(
-      `http://api.openweathermap.org/data/2.5/weather?q=Ahmedabad&units=metric&appid=${process.env.APPID}`
-    )
+// Define root route
+app.get("/", (req, res) => {
+  requests(
+    `http://api.openweathermap.org/data/2.5/weather?q=Ahmedabad&units=metric&appid=${process.env.APPID}`
+  )
     .on("data", (chunk) => {
       try {
         const objdata = JSON.parse(chunk);
         if (objdata.cod !== 200) {
           console.error("API Error:", objdata.message);
-          res.end("Error fetching weather data");
+          res.status(500).send("Error fetching weather data");
           return;
         }
         const arrData = [objdata];
-        const realTimeData = arrData.map((val) => replaceVal(homeFile, val)).join("");
-        res.write(realTimeData);
+        const realTimeData = arrData
+          .map((val) => replaceVal(homeFile, val))
+          .join("");
+        res.send(realTimeData);
       } catch (error) {
         console.error("JSON Parsing Error:", error);
-        res.end("Server Error");
+        res.status(500).send("Server Error");
       }
     })
-    
-      .on("end", (err) => {
-        if (err) console.log("Connection closed due to errors", err);
-        res.end();
-      });
-  } else {
-    res.writeHead(404, { "Content-Type": "text/plain" });
-    res.end("File not found");
-  }
+    .on("end", (err) => {
+      if (err) console.error("Connection closed due to errors", err);
+    });
 });
 
-server.listen(process.env.PORT || 8000, "127.0.0.1", () => {
-  console.log(`Server is running on http://127.0.0.1:${process.env.PORT || 8000}`);
+// Start the server (no hardcoded IP!)
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
 });
