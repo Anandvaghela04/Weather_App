@@ -25,6 +25,7 @@ app.get("/weather", async (req, res) => {
     const weather = response.data;
     const result = {
       city: weather.name,
+      country: weather.sys.country,
       temp: weather.main.temp,
       feels_like:weather.main.feels_like,
       condition: weather.weather[0].main,
@@ -33,12 +34,13 @@ app.get("/weather", async (req, res) => {
       sunrise: weather.sys.sunrise,
       sunset: weather.sys.sunset,
     };
-
+    
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch weather data" });
   }
 });
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../front/index.html'));
   });

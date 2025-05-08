@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     getWeatherBtn.innerText = "Loading...";
 
     try {
-      const res = await fetch(`${BASE_URL}/weather?city=${city}`);
+      const res = await fetch(`http://localhost:3000/weather?city=${city}`);
       const data = await res.json();
 
       document.getElementById("temperature").innerText = data.temp;
@@ -26,7 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("weatherIcon").src = `http://openweathermap.org/img/wn/${data.icon}@2x.png`;
       document.getElementById("feelsLike").innerText = data.feels_like;
       document.getElementById("windSpeed").innerText = data.wind_speed;
-      document.getElementById("summaryCity").innerText = data.city;
+      document.getElementById("summaryCity").innerText = `${data.city}, ${data.country}`;
+      document.getElementById("summary").style.display = "block";
+
 
       const toTime = (ts) =>
         new Date(ts * 1000).toLocaleTimeString([], {

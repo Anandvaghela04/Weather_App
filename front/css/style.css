@@ -88,4 +88,86 @@ body {
     width: 80px;
     height: 80px;
   }
+
+  /* for responsive design */
+  /* Base Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container styling */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Weather result box */
+#weatherResult {
+  margin-top: 20px;
+  background: #f1f1f1;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Responsive Layout */
+.info-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  text-align: left;
+}
+
+.info-row .left,
+.info-row .right {
+  flex: 1 1 45%;
+}
+
+img#weatherIcon {
+  display: block;
+  margin: 10px auto;
+}
+
+@media screen and (max-width: 600px) {
+  .info-row {
+    flex-direction: column;
+  }
+
+  input[type="text"] {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
   
