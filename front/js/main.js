@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const res = await fetch(`${BASE_URL}/weather?city=${city}`);
+      // const res = await fetch(`http://localhost:3000/weather?city=${city}`);
       const data = await res.json();
 
       document.getElementById("temperature").innerText = data.temp;
