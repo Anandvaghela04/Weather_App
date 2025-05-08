@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     getWeatherBtn.innerText = "Loading...";
 
     try {
-      const res = await fetch(`http://localhost:3000/weather?city=${city}`);
+      const res = await fetch(`/weather?city=${city}`);
       const data = await res.json();
 
       document.getElementById("temperature").innerText = data.temp;
