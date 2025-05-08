@@ -1,3 +1,5 @@
+const BASE_URL = "https://weather-app-edi3.onrender.com"; 
+
 document.addEventListener("DOMContentLoaded", () => {
   const getWeatherBtn = document.getElementById("getWeatherBtn");
   const weatherResult = document.getElementById("weatherResult");

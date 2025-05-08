@@ -1,6 +1,7 @@
 // back/index.js
 const express = require("express");
 const axios = require("axios");
+const path = require('path');
 const cors = require("cors");
 require("dotenv").config();
 
@@ -8,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
+app.use(express.static(path.join(__dirname, '../front')));
 
 app.get("/weather", async (req, res) => {
   const city = req.query.city;
@@ -37,6 +39,9 @@ app.get("/weather", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch weather data" });
   }
 });
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../front/index.html'));
+  });
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
